@@ -51,6 +51,7 @@
   line-height: 200px;
   font-size: 18px;
   user-select: none;
+  transition: transform 0.1s, background-color 0.1s;
 }
 
 .key.white {
@@ -66,4 +67,9 @@
   position: absolute;
   z-index: 1;
   margin-left: -20px;
+}
+
+.key.active {
+  transform: scale(0.95); 
+  background-color: lightgray;
 }

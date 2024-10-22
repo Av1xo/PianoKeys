@@ -1,9 +1,11 @@
 import notes from "./notes.json"
 import './App.css'
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function PianoKey({ note, type, frequency, bind_key}) {
+  const [isActive, setIsActive] = useState(false)
+
   function playNote() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -33,22 +35,31 @@ function PianoKey({ note, type, frequency, bind_key}) {
   function handleKeyDown(event) {
     if (event.key === bind_key) {
       playNote();
+      setIsActive(true);
+    }
+  }
+
+  function handleKeyUp(event) {
+    if (event.key === bind_key) {
+      setIsActive(false)
     }
   }
 
   useEffect(() => {
     // Додаємо обробник події при монтуванні компонента
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
     // Видаляємо обробник події при демонтажі компонента
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, [bind_key]); 
 
   return (
       <div 
-          className={`key ${type}`}
+          className={`key ${type} ${isActive ? 'active' : ''}`}
           onClick={playNote}
       >
           {note}
