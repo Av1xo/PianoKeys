@@ -33,10 +33,37 @@
   }
 }
 
-.card {
-  padding: 2em;
+.piano {
+  display: flex;
+  position: relative;
+  height: 200px;
 }
 
-.read-the-docs {
-  color: #888;
+.key {
+  border: 1px solid #000;
+  cursor: pointer;
+  display: inline-block;
+  height: 100%;
+  width: 60px;
+  margin-right: 2px;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 200px;
+  font-size: 18px;
+  user-select: none;
+}
+
+.key.white {
+  background-color: #fff;
+  color: #000;
+  padding-top: 50px;
+}
+
+.key.black {
+  background-color: #000;
+  width: 40px;
+  height: 120px;
+  position: absolute;
+  z-index: 1;
+  margin-left: -20px;
 }
