@@ -1,7 +1,9 @@
 import notes from "./notes.json"
 import './App.css'
 
-function PianoKey({ note, type, frequency}) {
+import { useEffect } from "react";
+
+function PianoKey({ note, type, frequency, bind_key}) {
   function playNote() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -27,6 +29,23 @@ function PianoKey({ note, type, frequency}) {
     oscillator1.stop(audioContext.currentTime + 1);
   }
 
+  // Обробник події для клавіатури
+  function handleKeyDown(event) {
+    if (event.key === bind_key) {
+      playNote();
+    }
+  }
+
+  useEffect(() => {
+    // Додаємо обробник події при монтуванні компонента
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Видаляємо обробник події при демонтажі компонента
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [bind_key]); 
+
   return (
       <div 
           className={`key ${type}`}
@@ -42,7 +61,7 @@ function App() {
     <>
     <div>
       {notes.map((n) => (
-          <PianoKey note={n.note} type={n.type} frequency={n.frequency}></PianoKey>
+          <PianoKey note={n.note} type={n.type} frequency={n.frequency} bind_key={n.bind_button}></PianoKey>
       ))
       }
     </div>
